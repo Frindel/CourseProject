@@ -1,0 +1,54 @@
+FROM python:3.8-slim-buster AS env
+
+ARG GROUP_ID=5000
+ARG USER_ID=5000
+
+ENV VIRTUAL_ENV=/srv/app/.venv \
+    PATH="$VIRTUAL_ENV/bin:$PATH" \
+    \
+    # эта переменная среды обеспечивает правильность работы импортов
+    PYTHONPATH=/srv/api \
+    # Keeps Python from generating .pyc files in the container
+    PYTHONDONTWRITEBYTECODE=1 \
+    # Turns off buffering for easier container logging
+    PYTHONUNBUFFERED=1
+
+# RUN groupadd --gid ${GROUP_ID} api && \
+#     useradd --home-dir /home/api --create-home --uid ${USER_ID} \
+#         --gid ${GROUP_ID} --shell /bin/sh --skel /dev/null api && \
+#     mkdir /srv/api && \
+#     chown -R api:api /srv/api
+
+WORKDIR /srv/app
+
+COPY requirements.txt .
+
+# RUN \
+#     apt-get update && \ 
+#     python3 -m pip install --no-cache -r requirements.txt && \
+#     pip install "uvicorn[standard]" && \
+#     rm requirements.txt
+
+RUN \
+    apt-get update && \ 
+    python3 -m pip install --no-cache -r requirements.txt && \
+    pip install "uvicorn[standard]"
+
+USER ${REMOTE_USER}
+
+
+FROM env as dev
+EXPOSE 5000
+WORKDIR /srv/app
+
+
+FROM env as publish
+
+WORKDIR /srv/app
+
+EXPOSE 5000
+
+COPY /api ./api
+
+# RUN cd /srv/app/api
+CMD [ "uvicorn", "main:app", "--host", "0.0.0.0", "--port", "5000", "--app-dir", "api" ]  

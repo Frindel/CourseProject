@@ -1,0 +1,16 @@
+version: "3.8"
+
+services:
+  frontend:
+    container_name: frontend-dev
+    build:
+      dockerfile: ./dockerfile
+      target: env
+    tty: true
+    ports:
+      - 8080:80
+    restart: always
+    volumes:
+      - ./frontend/app:/srv/app:rw,cached
+    depends_on:
+      - backend

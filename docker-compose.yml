@@ -1,0 +1,56 @@
+version: '3.8'
+services:
+  frontend:
+    container_name: frontend
+    build: /frontend
+    ports:
+      - 2752:80
+    restart: unless-stopped
+    depends_on:
+      - backend
+
+  backend:
+    container_name: backend
+    build: /backend
+    ports:
+      - 5000:5000
+    restart: unless-stopped
+    depends_on:
+      - db
+    networks:
+      - course-project
+
+  db:
+    container_name: db
+    image: postgres:13.3
+    environment:
+      POSTGRES_DB: "courseProject"
+      POSTGRES_USER: "root"
+      POSTGRES_PASSWORD: "root"
+      PGDATA: "/var/lib/postgresql/data/pgdata"
+    volumes:
+      - ./database/data:/var/lib/postgresql/data
+    networks:
+      - course-project
+  
+  db-panel:
+    container_name: db-panel
+    image: dpage/pgadmin4:7.2
+    user: root
+    environment:
+      PGADMIN_DEFAULT_EMAIL: "admin@mail.com"
+      PGADMIN_DEFAULT_PASSWORD: "admin"
+      PGADMIN_CONFIG_SERVER_MODE: "False"
+    ports:
+      - 15432:80
+    volumes:
+      - ./database/panel-data:/var/lib/pgadmin
+      - ./database/panel-data-sessions:/var/lib/pgadmin/sessions
+    networks:
+      - course-project
+
+
+networks:
+  course-project:
+    name: course-project
+    driver: bridge

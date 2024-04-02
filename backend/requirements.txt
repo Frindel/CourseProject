@@ -1,0 +1,5 @@
+fastapi
+accessify
+psycopg2-binary
+bestconfig
+fastapi-cors

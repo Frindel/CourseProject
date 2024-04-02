@@ -1,0 +1,17 @@
+version: "3.8"
+
+services:
+  backend:
+    container_name: backend-dev
+    build:
+      dockerfile: ./dockerfile
+      target: env
+    tty: true
+    ports:
+      - 5000:5000
+    restart: always
+    volumes:
+      - ./backend/api/:/srv/app/api:rw,cached
+      - ./backend/requirements.txt:/srv/app/requirements.txt:rw,cached
+    depends_on:
+      - db
