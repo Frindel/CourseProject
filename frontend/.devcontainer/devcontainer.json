@@ -7,10 +7,5 @@
 	"service": "frontend",
 	
 	"shutdownAction": "stopCompose",
-	"workspaceFolder": "/srv/app/",
-
-	"extensions":[
-		"vue.volar",
-		"dariofuzinato.vue-peek"
-	],
+	"workspaceFolder": "/srv/app/"
 }
