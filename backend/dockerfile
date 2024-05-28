@@ -1,4 +1,4 @@
-FROM python:3.8-slim-buster AS env
+FROM python:3.12.3-slim AS env
 
 ARG GROUP_ID=5000
 ARG USER_ID=5000

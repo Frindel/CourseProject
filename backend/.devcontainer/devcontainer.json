@@ -9,10 +9,5 @@
 	"shutdownAction": "stopCompose",
 
  	// "workspaceMount": "source=${localWorkspaceFolder}/api,target=/srv/api,type=bind,consistency=delegated",
-	"workspaceFolder": "/srv/app/",
-
-	"extensions": [
-		"ms-azuretools.vscode-docker",
-		"ms-python.python"
-	]
+	"workspaceFolder": "/srv/app/"
 }

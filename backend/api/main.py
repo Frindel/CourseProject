@@ -1,9 +1,12 @@
-from fastapi import FastAPI
 import os
 import importlib
 import sys
 import secrets
+
 from fastapi.middleware.cors import CORSMiddleware
+from fastapi.responses import FileResponse, JSONResponse
+from fastapi import FastAPI, Header, Body, WebSocket
+
 
 # создание экземпляра приложения
 app = FastAPI()
@@ -17,7 +20,7 @@ app.add_middleware(
 )
 
 current_file = os.path.realpath(__file__)
-current_directory = os.path.dirname(current_file)
+current_directory = os.path.dirname(current_file) # дериктория файла main.py (текущего файла)
 
 sys.path.append(f'{current_directory}/common')
 
@@ -48,17 +51,47 @@ def getModules():
     
     return modules_info
 
-getModules()
-
 # создание путей переобучения для модулей
-# возможен перенос в ModuleBase
 for (name, module_obj) in modules.items():
 
-    async def overfitting():
-        # todo: получение id пользователя
+    module_name = name;
+    async def overfitting(websocket: WebSocket, key: str | None = Header(default=None)):
+        await websocket.accept()
+
+        # проверка наличия id пользователя
+        if (key is None):
+             await websocket.close(400, JSONResponse(content={'error': 'user key not set'}).json())
+
+        # ожидание получения датасета
+        while True:
+            data = await websocket.receive_bytes()
+        
+        
+
         # todo: сохранение файла в папку пользователя
+        
         # todo: переобучение
 
-        return name
+        await websocket.close()
 
-    app.add_api_route(f"/api/v1/{name}/overfitting", overfitting, methods=['GET'])
+    # получение датасета модуля
+    async def getModuleDateSet(key: str | None = Header(default=None)):
+
+        # проверка переданного ключа
+        if (key is None):
+            return JSONResponse(content= {'error': 'user key not set'}, status_code=400)  
+
+        # проверка существование переобученной модели для данного пользователя         
+        model_name = 'default' if os.path.isdir(f"{current_directory}/modules/{module_name}/models/{key}") == False else key;
+        
+        file = FileResponse(f"{current_directory}/modules/{module_name}/models/{model_name}/dataset.csv", filename="dataset.csv")
+        
+        return file;
+    
+    # регистрация метода переобучения модуля
+    app.add_api_websocket_route(f"/api/v1/{name}/overfitting", overfitting)
+
+    # регистрация метода получения датасета модуля
+    app.add_api_route(f"/api/v1/{name}/data-set", getModuleDateSet, methods=['GET'])
+    
+    

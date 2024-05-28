@@ -1,12 +1,17 @@
-import home from '../pages/home.vue'
 import { createRouter, createWebHistory } from "vue-router";
 
 import simpleRoute from '../modules/simpleModule/routes'
+import Test from '../modules/simpleModule/Module.vue';
 
 const routes = [
+    // {
+    //     path: '/',
+    //     component:  home
+    // }
+
     {
-        path: '/',
-        component:  home
+        path: '/test',
+        component: Test
     }
 ];
 
