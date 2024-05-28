@@ -9,5 +9,14 @@
 	"shutdownAction": "stopCompose",
 
  	// "workspaceMount": "source=${localWorkspaceFolder}/api,target=/srv/api,type=bind,consistency=delegated",
-	"workspaceFolder": "/srv/app/"
+	"workspaceFolder": "/srv/app/",
+
+	"customizations": {
+		"vscode": {
+			"settings": [
+				"ms-python.python",
+				"njqdev.vscode-python-typehint"
+			]
+		}
+	}
 }
