@@ -13,5 +13,6 @@ services:
     volumes:
       - ./backend/api/:/srv/app/api:rw,cached
       - ./backend/requirements.txt:/srv/app/requirements.txt:rw,cached
+      - ./backend/.vscode:/srv/app/.vscode:rw,cached
     depends_on:
       - db
