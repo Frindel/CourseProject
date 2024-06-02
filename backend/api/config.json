@@ -1,7 +1,15 @@
 {
-    "host": "db",
-    "port": 5432,
-    "dbName": "courseProject",
-    "user": "root",
-    "password": "root"
+    "dbSettings": {
+        "host": "db",
+        "port": 5432,
+        "dbName": "courseProject",
+        "user": "root",
+        "password": "root"
+    },
+    "JwtAuthSettings":{
+        "publicKey":"-----BEGIN PUBLIC KEY-----\nMIIBIjANBgkqhkiG9w0BAQEFAAOCAQ8AMIIBCgKCAQEApdt5dkCSAxviX6asXmbx\n/w5vZ6+4YZHVJh6F2rIfO+q7Jo+cOKXPqPQkscMu1rsJ90rpg79X7aiWtg7hqS2r\nXbSstKnVVmNkEohntHDvKleQwKnKdm374Mx4YjlhEUZQFBw8/lKvhz2zl3oXcK7n\n6tNX8WPdmZzG6TFTLsx2r/r4FFZDEGj0OFceoefA19vjS/zM0Wy7E/ddw2xC2tzD\n0IpmspkyKi3PT+OgqgQZ9zAnNH40IdUxeoJtvhaTlDF6IKX2uaPA2HBg/3xvKFDa\nsSqZt+fzdt0gZ7ZFjwCl+22FB56dvszbcdS8n+plx3lXlQ6nFr9HXnUpUityyIAo\nrwIDAQAB\n-----END PUBLIC KEY-----",
+        "priveteKey": "-----BEGIN RSA PRIVATE KEY-----\nMIIEowIBAAKCAQEApdt5dkCSAxviX6asXmbx/w5vZ6+4YZHVJh6F2rIfO+q7Jo+c\nOKXPqPQkscMu1rsJ90rpg79X7aiWtg7hqS2rXbSstKnVVmNkEohntHDvKleQwKnK\ndm374Mx4YjlhEUZQFBw8/lKvhz2zl3oXcK7n6tNX8WPdmZzG6TFTLsx2r/r4FFZD\nEGj0OFceoefA19vjS/zM0Wy7E/ddw2xC2tzD0IpmspkyKi3PT+OgqgQZ9zAnNH40\nIdUxeoJtvhaTlDF6IKX2uaPA2HBg/3xvKFDasSqZt+fzdt0gZ7ZFjwCl+22FB56d\nvszbcdS8n+plx3lXlQ6nFr9HXnUpUityyIAorwIDAQABAoIBADSUzQARXnj/2Rer\n9o+DIYtT3zvG+LRuEF4iZRs9RyuusiB6fPN0lc4hgJSepXXMHE+6/ycWfWDKBuW2\n+BGzedWeVvZ7tTfLEMnTVtVczGXnFuwNqDM9kRHmoO+68ywP14lYnnmeayl8BTir\nq0y9Fqda01Gi8Hknu+PoEFAQ4DvP10414saNfx+57wRD6fqYaoOoO9Q3iQdrvuyD\n8+k67CTE08OmdJtFsaBc6zbo+AO+W8onKZhEcXeDCT0f0Mptt/IX/SzFoznTq2Vy\nKoN+rag30mLP0iZDybqR3aoAbooc5OG/LmVyphTHbP0FaNa2ecXF0o+rZ5OXxYAB\nYu6/wGkCgYEA9INt5Kkh59jcd5ssw8W28GGk9bRjaeXe/iHtkJ2ZaGb1CFMjihfC\nNoWtWPbaDm0CvSlTRGrYpUGGV1s736OZnTa33b0auVouBgq7fHznTW1GmiKV6fkz\nfhsk8WYvzKmjRzUYUG+mv756c6xUF4Q5LgEaeFNaXN3yJSSAxyT873UCgYEAraYc\nPd6nyXco8/VIx33T6QU+YOKEmeaos4LacqWQqzJfPAoxgRDmrPvcN2nGtigVMj8T\n+PmhzfUWi1zdj/7a4uRWRWIT2oPBe+CQgEIM5MXAW5EBZQAPVY650E+HOO0bcGS6\nhJl4ce6mICNHLhDKfORBwOmj1oRQlYLVQPJfdxMCgYEAxTs+6bOEJgBH1jLVaRWS\n+1PIPGnFxyYlOdkkSALYO97QyGZHxJxljJVHvvtf6UMFcpBjGk0VdDfmpZByO3M7\n9hStO6/OXrTfawA9O62E5m+/A5XiV1kssAw1QIOtCunLSyUI99kYKJL9M1FOg6mk\ndfdt4qFZwo9FQ7CuL/UmEgECgYBQ3IdOMD7FzB1f7Rqk+u0RF4YCq7i/ye9JGGgM\n9xg1AFHkrYJ77ZjdeLMFgtYrwOKN8V2llOlJ9RU4dFggU7ct7NJXoOJJ4QzaWKox\nb5B9f7ChcxbJJ4v8dWgFnuMDGTar0dwhHy49L7pgQM1GoD8KhWgxIxtOK3MzDCeu\nBK97zQKBgGBgoLWbcpBABciOtUVowcmQ7IBzKVvqCveBNjF/jnfkyXszHl9DMdMr\nZf5WPZFHcB1uonDFtMJFXixR0bvQKlFNe5goRR4URLKTynPMiN9h5MdVnIXbq9YZ\n4MPvli1pUVcYsmhf/eR9ncFJFXwOwVff6LX1tOiSInuRMCno5EjI\n-----END RSA PRIVATE KEY-----",
+        "liveTime": 30,
+        "algorithm": "RS256"
+    }
 }
