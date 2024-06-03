@@ -3,5 +3,5 @@ accessify
 psycopg2-binary
 bestconfig
 fastapi-cors
-PyJWT
+PyJWT[crypto]
 sqlparse

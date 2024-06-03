@@ -20,7 +20,7 @@
                                 <p>Обучение</p>
                             </div>
                             <div class="settings__setting">
-                                <button class="settings__button">Переобучить</button>
+                                <button class="settings__button" v-on:click="retrain">Переобучить</button>
                             </div>
                         </div>
                     </div>
@@ -52,6 +52,10 @@ export default {
         loadDataSet()
         {
             this.$emit("loadDataSet");
+        },
+        retrain()
+        {
+            this.$emit("retrain");
         }
     }
 }

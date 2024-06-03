@@ -9,7 +9,7 @@ from fastapi.responses import FileResponse, JSONResponse
 from fastapi.security import HTTPBearer, HTTPAuthorizationCredentials
 from jwt import InvalidTokenError
 
-from api.common.DbAdapter import DbAdapter
+from common.DbAdapter import DbAdapter
 import jwtAuth
 
 
@@ -132,11 +132,14 @@ for (name, module_obj) in modules.items():
         
         # получение датасета
         dataset = await websocket.receive_bytes()
+        await returnStepStatus('getting dataset', True)
 
         # сохранение датасета
         os.makedirs(dataset_dir, exist_ok=True)
         with open(f"{dataset_dir}/dataset.csv", 'wb+') as f:
             f.write(dataset)
+        
+        await returnStepStatus('save dataset', True)
 
         # for test
         if (module_name =='simple'):
@@ -149,57 +152,14 @@ for (name, module_obj) in modules.items():
         await websocket.close()
         return
 
-        # получение access-токена
-        access_token = websocket.headers.get('Sec-WebSocket-Protocol')
-        if (access_token is None):
-            await websocket.close(401)
-            return
-
-        try:
-            # получение id пользователя
-            user_id = jwtAuth.decodeToken(access_token)['userUid']
-            await websocket.send_text("yes")
-        except InvalidTokenError as e:
-            await websocket.close(401)
-            return
-        
-        file_path = f'{current_directory}/modules/{module_name}/models/{user_id}/dataset.csv'
-
-        # ожидание получения датасета
-        dataset = await websocket.receive_text()
-        
-        websocket.send_text("testr")
-        websocket.close(200)
-        return;
-
-        # сохранение файла в папку пользователя
-        file_path = f'{getModelRoute(user_id)}/dataset.csv'
-        with open(file_path, 'wb') as f:
-            f.write(dataset)
-        
-        websocket.send_json({'stage': 'import','isSuccess': True})
-
-        # переобучение
-        isSuccess, _ = modules[module_name].retrain(file_path)
-
-        websocket.send_json({'stage': 'retrain','isSuccess': isSuccess})
-
-        # todo: удаление файла при неуспешном переобучении
-
-        await websocket.close()
-
     # получение датасета модуля
-    async def getModuleDateSet(key: str | None = Header(default=None)):
-
-        # проверка переданного ключа
-        if (key is None):
-            return JSONResponse(content= {'error': 'user key not set'}, status_code=400)  
+    async def getModuleDateSet(token : HTTPAuthorizationCredentials = Depends(HTTPBearer())):
+        user_id = jwtAuth.decodeToken(token.credentials)['userUid']
 
         # проверка существование переобученной модели для данного пользователя         
-        model_name = 'default' if os.path.isdir(f"{current_directory}/modules/{module_name}/models/{key}") == False else key;
+        model_name = 'default' if os.path.isdir(f"{current_directory}/modules/{module_name}/models/{user_id}") == False else user_id;
         
-        file = FileResponse(f"{current_directory}/modules/{module_name}/models/{model_name}/dataset.csv", filename="dataset.csv")
-        
+        file = FileResponse(f"{current_directory}/modules/{module_name}/models/{model_name}/dataset.csv", filename="dataset.csv", headers={'Cache-Control': 'no-cache'})
         return file;
     
     # регистрация метода переобучения модуля
