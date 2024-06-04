@@ -36,7 +36,7 @@ modules = {}
 for module_name in os.listdir(f'{current_directory}/modules'):
         
         # Импортируем модуль
-        sys.path.append(f'{current_directory}/modules/simple')
+        sys.path.append(f'{current_directory}/modules/{module_name}')
         module = importlib.import_module(f'modules.{module_name}')
         module_obj = module.init(module_name, app)
 
@@ -147,7 +147,7 @@ for (name, module_obj) in modules.items():
             return;
 
         # переобучение
-        isSuccess, _ = modules[module_name].retrain(f"{dataset_dir}/dataset.csv")
+        isSuccess, _ = modules[module_name].retrain(dataset_dir)
 
         await websocket.close()
         return

@@ -90,6 +90,7 @@ export default {
     width: 100%;
 
     margin: 10px 0;
+    margin-top: 0px;
     flex-direction: column;
 }
 
@@ -138,8 +139,8 @@ export default {
 
 .roll-up-button {
     position: absolute;
-    top: 2px;
-    right: 2px;
+    top: 5px;
+    right: 5px;
 
     width: 40px;
     height: 40px;

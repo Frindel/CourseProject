@@ -45,7 +45,7 @@ export const useMainStore = defineStore("mainStore", {
       let now = Math.floor(Date.now() / 1000);
 
       // обновление токенов
-      if (liveTime > now) {
+      if (liveTime < now) {
         let newTokens = await axios
           .post(`http://localhost:5000/api/v1/update-access-token`, {
             refreshToken: localStorage.getItem("refreshToken"),
@@ -70,7 +70,7 @@ export const useMainStore = defineStore("mainStore", {
         let token = await this.accessToken();
         let a =  `Bearer ${await this.accessToken()}`;
         const response = await axios({
-          url: `http://localhost:5000/api/v1/simple/data-set`,
+          url: `http://localhost:5000/api/v1/${moduleName}/data-set`,
           method: "GET",
           "responseType": "blob",
           headers: {

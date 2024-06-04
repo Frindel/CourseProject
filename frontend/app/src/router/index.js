@@ -1,21 +1,14 @@
 import { createRouter, createWebHistory } from "vue-router";
 
 import simpleRoute from '../modules/simpleModule/routes'
-import Test from '../modules/simpleModule/Module.vue';
+import recomendedFilmRoute from '../modules/recomendedFilm/routes.js'
 
-const routes = [
-    // {
-    //     path: '/',
-    //     component:  home
-    // }
 
-    {
-        path: '/test',
-        component: Test
-    }
-];
+const routes = [];
 
+// подключение маршрутов модулей
 routes.push(simpleRoute)
+routes.push(...recomendedFilmRoute)
 
 const router = new createRouter({
     routes,

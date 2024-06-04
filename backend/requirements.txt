@@ -5,3 +5,6 @@ bestconfig
 fastapi-cors
 PyJWT[crypto]
 sqlparse
+joblib
+pandas
+scikit-learn

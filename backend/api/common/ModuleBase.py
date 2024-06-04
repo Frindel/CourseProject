@@ -43,7 +43,7 @@ class ModuleBase(ABC):
     def getModelByRequest(self, request):
         model_name = self.__getModelName(request)
 
-        model_path = f"{self.__module_path}/models/{model_name}/dataset"
+        model_path = f"{self.__module_path}/models/{model_name}"
  
         return self._import_model(model_path)
 
@@ -54,8 +54,8 @@ class ModuleBase(ABC):
  
         return self._import_data_set(dataset_path)
 
-    def retrain(self, file_path): #return (bool, model)
-        (is_imported, data_set) = self._import_data_set(file_path)
+    def retrain(self, directory_path): #return (bool, model)
+        (is_imported, data_set) = self._import_data_set(f'{directory_path}/dataset.csv')
 
         if (is_imported == False):
             # todo: возврат исключения
@@ -69,7 +69,7 @@ class ModuleBase(ABC):
             print("Ошибка обучения")
             return
 
-        self._save_model(model)
+        self._save_model(model, directory_path)
 
         return (True, model)
 
@@ -86,7 +86,7 @@ class ModuleBase(ABC):
         pass
 
     @abstractmethod
-    def _import_data_set(self, file_path): # return (bool, data_set)
+    def _import_data_set(self, directory_path): # return (bool, data_set)
         pass
 
     
@@ -105,4 +105,4 @@ class ModuleBase(ABC):
                     return None
 
                 # проверка существование переобученной модели для данного пользователя
-                model_name = 'default' if os.path.isdir(f"{self.__module_path}/models/{user_uid}") == False else user_uid;
+                return 'default' if os.path.isdir(f"{self.__module_path}/models/{user_uid}") == False else user_uid;
