@@ -8,7 +8,7 @@
                 <div class="charts-pop-up__charts">
                     <div class="chart">
                         <div class="chart__header">
-                            <h3>Жанры/количество</h3>
+                            <h3>Год выпуска/ количество</h3>
                         </div>
                         <div class="chart__view">
                             <Bar id="my-chart-id" :options="firstChart.chartOptions" :data="firstChart.chartData" />
@@ -16,19 +16,11 @@
                     </div>
                     <div class="chart">
                         <div class="chart__header">
-                            <h3>Даты выпуска/количества</h3>
+                            <h3>Цена / количество</h3>
                         </div>
                         <div class="chart__view">
                             <Line class="chart__chart" id="my-chart-id" :options="secondChart.chartOptions"
                                 :data="secondChart.chartData" />
-                        </div>
-                    </div>
-                    <div class="chart">
-                        <div class="chart__header">
-                            <h3>Рейтинг фильма/количество</h3>
-                        </div>
-                        <div class="chart__view">
-                            <Line id="my-chart-id" :options="thirdChart.chartOptions" :data="thirdChart.chartData" />
                         </div>
                     </div>
                 </div>
@@ -39,7 +31,7 @@
 </template>
 
 <script>
-import { useRecomendedFilmStore } from '../storage'
+import { useRecomendedPhoneStore } from '../storage'
 
 import { Line, Bar } from 'vue-chartjs'
 import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale } from 'chart.js'
@@ -47,14 +39,14 @@ import { Chart as ChartJS, Title, Tooltip, Legend, LineElement, PointElement, Ca
 ChartJS.register(Title, Tooltip, Legend, LineElement, PointElement, CategoryScale, LinearScale)
 
 export default {
-    name: 'ChartsPupUp',
+    name: 'charts-popupe',
     components: {
         Line,
         Bar
     },
     data() {
         return {
-            moduleStorage: useRecomendedFilmStore(),
+            moduleStorage: useRecomendedPhoneStore(),
 
             modalOpen: false,
 
@@ -63,7 +55,7 @@ export default {
                     labels: ['January', 'February', 'March'],
                     datasets: [{
                         data: [40, 20, 12],
-                        label: 'Жанры/количество',
+                        label: 'Год выпуска/ количество',
                         borderColor: '#42A5F5',
                         backgroundColor: 'rgba(66, 165, 245, 0.2)'
                     }]
@@ -78,7 +70,7 @@ export default {
                     labels: ['January', 'February', 'March'],
                     datasets: [{
                         data: [40, 20, 12],
-                        label: 'даты выпуска/количество',
+                        label: 'Цена / количество',
                         borderColor: '#42A5F5',
                         backgroundColor: 'rgba(66, 165, 245, 0.2)'
                     }]
@@ -90,38 +82,7 @@ export default {
                             display: true,
                             title: {
                                 display: true,
-                                text: 'количество'
-                            }
-                        },
-                        y: {
-                            display: true,
-                            title: {
-                                display: true,
-                                text: 'год выпуска'
-                            }
-                        }
-                    }
-                }
-            },
-
-            thirdChart: {
-                chartData: {
-                    labels: [],
-                    datasets: [{
-                        data: [],
-                        label: 'Рейтинг/количество',
-                        borderColor: '#42A5F5',
-                        backgroundColor: 'rgba(66, 165, 245, 0.2)'
-                    }]
-                },
-                chartOptions: {
-                    responsive: true,
-                    scales: {
-                        x: {
-                            display: true,
-                            title: {
-                                display: true,
-                                text: 'Рейтинг'
+                                text: 'Цена'
                             }
                         },
                         y: {
@@ -153,37 +114,29 @@ export default {
         };
 
         // статистика по жанрам
-        let genreStatistics = await this.moduleStorage.getGenreStatistics();
+        let genreStatistics = await this.moduleStorage.getCountStatistics();
 
-        let genresAndCount = splitStatistics(genreStatistics, 'genre', 'count');
+        let genresAndCount = splitStatistics(genreStatistics, 'Release', 'Count');
 
-        this.firstChart.chartData.labels = genresAndCount.genre;
-        this.firstChart.chartData.datasets[0].data = genresAndCount.count;
+        this.firstChart.chartData.labels = genresAndCount.Release;
+        this.firstChart.chartData.datasets[0].data = genresAndCount.Count;
 
         // статистика по датам резила
-        let releaseDatesStatistics = await this.moduleStorage.getReleaseDatesStatistics();
+        let releaseDatesStatistics = await this.moduleStorage.getPriceStatistics();
 
-        let releaseDates = splitStatistics(releaseDatesStatistics, 'year', 'count');
+        let releaseDates = splitStatistics(releaseDatesStatistics, 'Диапазон цен', 'Количество моделей');
 
-        this.secondChart.chartData.labels = releaseDates.year;
-        this.secondChart.chartData.datasets[0].data = releaseDates.count;
-
-        // рейтинг фильма / количество
-        let ratingStatistics = await this.moduleStorage.getRatingStatistics();
-
-        let ratings = splitStatistics(ratingStatistics, 'reiting', 'count');
-
-        this.thirdChart.chartData.labels = ratings.reiting;
-        this.thirdChart.chartData.datasets[0].data = ratings.count;
+        this.secondChart.chartData.labels = releaseDates['Диапазон цен'];
+        this.secondChart.chartData.datasets[0].data = releaseDates['Количество моделей'];
     },
 }
 </script>
 
 <style>
 .charts-pup-up__display-button {
-    position: absolute;
-    bottom: 10px;
-    right: 10px;
+    position: fixed;
+    bottom: 20px;
+    right: 30px;
     width: 45px;
     height: 45px;
     border-radius: 5px;

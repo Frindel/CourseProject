@@ -105,4 +105,4 @@ class ModuleBase(ABC):
                     return None
 
                 # проверка существование переобученной модели для данного пользователя
-                return 'default' if os.path.isdir(f"{self.__module_path}/models/{user_uid}") == False else user_uid;
+                return 'default' if os.path.isdir(f"{self.__module_path}/models/{user_uid}") == False else user_uid

@@ -19,7 +19,7 @@
 </template>
 <script>
 import searchResult from './SearchResult.vue';
-import { useRecomendedFilmStore } from '../storage/index.js';
+import { useRecomendedFilmStore } from '../storage';
 
 export default {
     components: {

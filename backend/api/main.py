@@ -102,9 +102,9 @@ def getModules():
 # создание путей переобучения для модулей
 for (name, module_obj) in modules.items():
 
-    module_name = name;
+    module_name = name
     
-    async def overfitting(websocket: WebSocket):
+    async def overfitting(name, websocket: WebSocket):
 
         async def returnStepStatus(step_name: str, isSuccess: bool):
             message = {
@@ -128,7 +128,7 @@ for (name, module_obj) in modules.items():
             return
         
         # опеделение пути к датасету
-        dataset_dir = f'{current_directory}/modules/{module_name}/models/{user_id}'
+        dataset_dir = f'{current_directory}/modules/{name}/models/{user_id}'
         
         # получение датасета
         dataset = await websocket.receive_bytes()
@@ -144,29 +144,29 @@ for (name, module_obj) in modules.items():
         # for test
         if (module_name =='simple'):
             await websocket.close()
-            return;
+            return
 
         # переобучение
-        isSuccess, _ = modules[module_name].retrain(dataset_dir)
+        isSuccess, _ = modules[name].retrain(dataset_dir)
 
         await websocket.close()
         return
 
     # получение датасета модуля
-    async def getModuleDateSet(token : HTTPAuthorizationCredentials = Depends(HTTPBearer())):
+    async def getModuleDateSet(name, token : HTTPAuthorizationCredentials = Depends(HTTPBearer())):
         user_id = jwtAuth.decodeToken(token.credentials)['userUid']
 
         # проверка существование переобученной модели для данного пользователя         
-        model_name = 'default' if os.path.isdir(f"{current_directory}/modules/{module_name}/models/{user_id}") == False else user_id;
+        model_name = 'default' if os.path.isdir(f"{current_directory}/modules/{name}/models/{user_id}") == False else user_id
         
-        file = FileResponse(f"{current_directory}/modules/{module_name}/models/{model_name}/dataset.csv", filename="dataset.csv", headers={'Cache-Control': 'no-cache'})
-        return file;
+        file = FileResponse(f"{current_directory}/modules/{name}/models/{model_name}/dataset.csv", filename="dataset.csv", headers={'Cache-Control': 'no-cache'})
+        return file
     
     # регистрация метода переобучения модуля
-    app.add_api_websocket_route(f"/api/v1/{name}/overfitting", overfitting)
+    app.add_api_websocket_route("/api/v1/{name}/overfitting", overfitting)
 
     # регистрация метода получения датасета модуля
-    app.add_api_route(f"/api/v1/{name}/data-set", getModuleDateSet, methods=['GET'])
+    app.add_api_route("/api/v1/{name}/data-set", getModuleDateSet, methods=['GET'])
 
 
 # db_adapter.request("DROP TABLE IF EXISTS users")
