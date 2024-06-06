@@ -55,7 +55,7 @@ export default {
             moduleStorage: useRecomendedPhoneStore(),
             results: [],
             
-            os: undefined,
+            os: 0,
             price: undefined,
             batteryCapacity: undefined,
             operativeMemory: undefined,
